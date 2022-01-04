@@ -1,0 +1,15 @@
+current directory: /home/pc.admin/rails_projects/store_app/vendor/bundle/ruby/3.0.0/gems/bootsnap-1.9.3/ext/bootsnap
+/home/pc.admin/.rbenv/versions/3.0.3/bin/ruby -I /home/pc.admin/.rbenv/versions/3.0.3/lib/ruby/3.0.0 -r ./siteconf20220104-121057-7sz6ax.rb extconf.rb
+creating Makefile
+
+current directory: /home/pc.admin/rails_projects/store_app/vendor/bundle/ruby/3.0.0/gems/bootsnap-1.9.3/ext/bootsnap
+make DESTDIR\= clean
+
+current directory: /home/pc.admin/rails_projects/store_app/vendor/bundle/ruby/3.0.0/gems/bootsnap-1.9.3/ext/bootsnap
+make DESTDIR\=
+compiling bootsnap.c
+linking shared-object bootsnap/bootsnap.so
+
+current directory: /home/pc.admin/rails_projects/store_app/vendor/bundle/ruby/3.0.0/gems/bootsnap-1.9.3/ext/bootsnap
+make DESTDIR\= install
+/usr/bin/install -c -m 0755 bootsnap.so ./.gem.20220104-121057-mao21p/bootsnap
