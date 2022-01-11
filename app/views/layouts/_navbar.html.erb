@@ -1,36 +1,63 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <%= link_to root_path, class: "navbar-brand" do %>
+      <i class="bi-house"></i>
+      <span class="ms-1 d-none d-sm-inline">DaiSea Surfboards</span>
+    <% end %>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <%= link_to products_path, class: "#{request.path == products_path  ? "nav-link active" : "nav-link"}" do %>
+            <i class="bi-shop-window"></i>
+            <span class="ms-1 d-none d-sm-inline">Shop</span>          
+          <% end %>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
+          <%= link_to about_us_path, class: "#{request.path == about_us_path  ? "nav-link active" : "nav-link"}" do %>
+            <i class="bi-info-circle"></i>
+            <span class="ms-1 d-none d-sm-inline">About Us</span>
+          <% end %>
         </li>
         <li class="nav-item">
-          <a class="nav-link disabled">Disabled</a>
+          <%= link_to new_contact_path, class: "#{request.path == new_contact_path  ? "nav-link active" : "nav-link"}" do %>
+            <i class="bi-telephone"></i>
+            <span class="ms-1 d-none d-sm-inline">Contact Us</span>
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled"><i class="bi-cart"></i>Cart</a>
         </li>
       </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+      <ul class="navbar-nav ml-auto">
+        <% if user_signed_in? %>
+          <li class="nav-item dropdown">
+            <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi-person"></i>
+                <%= current_user.email %>
+                <%= "{ADMIN}" if current_user.admin? %>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li>
+                <%= link_to edit_user_registration_url(current_user), class: "dropdown-item" do %>
+                  <i class="bi-pencil"></i> Edit Profile
+                <% end %>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#"><i class="bi-boxes"></i> Orders</a></li>
+            </ul>
+          </li>
+        <% end %>
+        <li class="nav-item">
+          <% if user_signed_in? %>
+            <%= link_to 'Logout', destroy_user_session_path, class: 'btn btn-xs btn-outline-light', method: :delete %>
+          <% else %>
+            <%= link_to "Login", user_session_path, class: "btn btn-xs btn-outline-light" %>
+          <% end %>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>

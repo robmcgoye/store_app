@@ -5,3 +5,11 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+pages = %w(home about contact)
+pages.each do |page|
+  Page.create!(
+    name: "#{page}",
+    title: "#{page} Page",
+    body: "body"
+  )
+end

@@ -1,0 +1,21 @@
+
+<% provide(:title, "Contact Us") %>
+
+<div class="container">
+  <div class="row align-items-start">
+    <div class="col">
+        <%= render 'form' %>
+    </div>
+    <div class="col p-2 rounded-lg m-1">
+    <h4><%= @page.title %></h4>
+    <p class="lead">
+      <div class="trix-content">
+        <%= @page.body %>
+      </div>
+    </p>
+    <%= link_to "edit", edit_page_path(@page), 
+        class: "btn btn-sm btn-outline-success" if admin_user? %>
+    </div>
+  </div>
+</div>
+

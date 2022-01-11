@@ -1,0 +1,41 @@
+<div class="container">
+  <h3>Send us a message</h3>
+
+  <%= form_with model: @contact do |form| %>
+  <% if @contact.errors.any? %>
+    <div id="error_explanation" class="alert alert-danger" role="alert">
+      <h4><%= pluralize(@contact.errors.count, "error") %> prohibited this message from being sent:</h4>
+
+      <ul>
+        <% @contact.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field form-group">
+    <%= form.hidden_field :nickname %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :email %>
+    <%= form.text_field :email, class: "form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :message %>
+    <%= form.text_area :message, size: "70x5", class: "form-control" %>
+  </div>
+
+<br>
+  <div class="actions">
+    <%= form.submit "Send Message", class: "btn btn-outline-dark" %>
+  </div>
+<% end %>
+</div>

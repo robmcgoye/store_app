@@ -1,29 +1,19 @@
 <p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Title:</strong>
-  <%= @product.title %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @product.description %>
-</p>
-
-<p>
-  <strong>Picture:</strong>
-  <%= @product.picture %>
-</p>
-
-<p>
-  <strong>Thumbnail:</strong>
-  <%= @product.thumbnail %>
-</p>
-
-<p>
-  <strong>Price:</strong>
-  <%= @product.price %>
-</p>
-
-<%= link_to 'Edit', edit_product_path(@product) %> |
-<%= link_to 'Back', products_path %>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <%= image_tag(@product.picture.url, class: "card-img-top") if @product.picture? %>
+    </div>
+    <div class="col">
+      <h3><%= @product.title %></h3>
+      <p><%= @product.price %></p>
+      <p><%= @product.description %></p>
+      <button type="button" class="btn btn-sm btn-outline-dark">Add to cart</button>
+      <%= link_to 'Edit', edit_product_path(@product), 
+                          class: "btn btn-sm btn-outline-success" if admin_user? %>
+      <%= link_to 'Delete', @product, class: "btn btn-sm btn-outline-danger", 
+                          method: :delete, data: { confirm: 'Are you sure?' } if admin_user? %> 
+      <%= link_to 'Back', products_path, class: "btn btn-sm btn-outline-dark" %>
+    </div>
+  </div>
+</div>

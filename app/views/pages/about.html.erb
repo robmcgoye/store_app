@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="p-2 rounded-lg m-1 bg-white">
+    <h4><%= @page.title %></h4>
+    <p class="lead">
+      <div class="trix-content">
+        <%= @page.body %>
+      </div>
+    </p>
+  </div>
+  <%= link_to "edit", edit_page_path(@page), 
+      class: "btn btn-sm btn-outline-success" if admin_user? %>
+</div>

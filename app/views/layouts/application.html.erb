@@ -10,8 +10,13 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
+  <body class="bg-light bg-gradient">
+
     <%= render 'layouts/navbar' %>
-    <%= yield %>
+    <div class="container p-4">
+      <%= render 'layouts/messages' %>
+      <%= yield %>
+    </div>
+
   </body>
 </html>

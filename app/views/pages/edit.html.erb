@@ -1,0 +1,28 @@
+<h3><%= @page.name.capitalize %></h3>
+<%= form_with(model: @page) do |form| %>
+  <% if @page.errors.any? %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <h4 class="alert-heading">The following errors prevented the <%= @page.class.name.downcase %> from being saved.</h4>
+    <ul>
+      <% @page.errors.full_messages.each do |msg|%>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>
+
+  <div class="field form-group">
+    <%= form.label :title %>
+    <%= form.text_field :title, class: "form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :body %>
+    <%= form.rich_text_area :body %>
+  </div>
+
+  <div class="actions pt-2">
+    <%= form.submit "Update", class: "btn btn-sm btn-outline-dark" %>
+  </div>
+<% end %>
