@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :pages, only: [:edit, :update]
   resources :contacts, only: [:new, :create]
   resources :products
-  devise_for :users
+  devise_for :users, :controllers => { registrations: 'users/registrations' }
+
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

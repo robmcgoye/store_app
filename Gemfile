@@ -29,7 +29,7 @@ gem 'bootstrap', '~> 5.1.3'
 gem 'devise', '~> 4.8', '>= 4.8.1'
 gem 'carrierwave', '~> 2.2', '>= 2.2.2'
 gem 'mini_magick', '~> 4.11'
-#gem 'stripe', '~> 5.42'
+gem 'stripe', '~> 5.42'
 gem 'mail_form', '~> 1.9'
 #---------------------------------------
 
