@@ -15,5 +15,9 @@ class User < ApplicationRecord
     customer = Stripe::Customer.create(email: email, name: full_name)
     update(stripe_customer_id: customer.id)
   end
+
+  after_update do
+    Stripe::Customer.update(stripe_customer_id, {email: email, name: full_name})
+  end
       
 end
