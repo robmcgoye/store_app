@@ -21,9 +21,15 @@
                     <%= link_to 'View', product, class: "btn btn-sm btn-outline-secondary" %> 
                     <%= link_to 'Edit', edit_product_path(product), 
                               class: "btn btn-sm btn-outline-success" if admin_user? %> 
-                    <button type="button" class="btn btn-sm btn-outline-dark">Add to cart</button>
+                    <% if @cart.include?(product) %>
+                      <%= link_to "Remove from cart", remove_from_cart_path(product), 
+                                    class: "btn btn-sm btn-outline-dark", method: :delete %>
+                    <% else %>
+                      <%= link_to "Add to cart", add_to_cart_path(id: product.id, quantity: 1), 
+                                  class: "btn btn-sm btn-outline-dark", method: :post %>
+                    <% end %>                    
                   </div>
-                  <small class="text-muted"><%= product.price %></small>
+                  <small class="text-muted"><%= number_to_currency(product.price/100.0) %></small>
                 </div>
               </div>
             </div>

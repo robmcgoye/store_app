@@ -1,0 +1,104 @@
+
+<div class="card-cart">
+  <div class="row">
+    <div class="col-md-8 cart">
+      <div class="container">
+          <div class="title">
+            <div class="row">
+              <div class="col-md-auto align-self-center">
+                <h4 class="cart-h4"><b>Shopping Cart</b></h4>
+              </div>
+              <div class="col align-self-center text-start text-muted">
+                <%= "(#{pluralize(@cart.length, 'item')})" %>
+              </div>
+              <div class="col align-self-center text-end">
+                <% if @cart.present? %>
+                  <%= link_to remove_all_from_cart_path, class:"btn btn-sm btn-outline-dark", method: :delete, data: { confirm: 'Are you sure you want to empty your cart?' } do %>
+                    <i class="bi-trash"></i> Remove All
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <% if @cart.present? %>
+            <% total_price = 0 %>
+            <% @cart.each do |item| %>
+              <% quantity = get_quantity(item.id) %>
+              <% price = item.price * quantity %>
+              <% total_price += price %>
+              <div class="row border-top border-bottom">
+                <div class="row main align-items-center">
+                  <div class="col-2">
+                    <%= image_tag(item.thumbnail.url, class: "img-cart img-fluid") if item.thumbnail? %>
+                  </div>
+                  <div class="col-4">
+                    <div class="row text-muted">
+                        <%= item.title %><br>
+                    </div>
+                  </div>
+                  <div class="col-md-auto">
+                    <%= form_with url: "/update_cart_quantity", method: :patch do |f| %>
+                      <%= f.hidden_field :id, value: "#{item.id}" %>
+                      <%= f.number_field :quantity, class: "form-control-sm form-control-sm", style: "width: 3.5em", value: "#{quantity}", min: "1" %>
+                      <%= button_tag(class: "btn btn-sm btn-outline-dark") do %>
+                        <i class="bi-arrow-clockwise"></i>
+                      <% end %>
+                    <% end %>
+                  </div>
+                  <div class="col-2 text-end">
+                    <%= number_to_currency(price/100.0) %>
+                    <% if quantity > 1 %>
+                      <small class="text-muted" style="font-size: 9px">
+                        <%= "(#{number_to_currency(item.price/100.0)} ea.)" %>
+                      </small>
+                    <% end %>
+                  </div>
+                  <div class="col-md-auto">
+                    <%= link_to remove_from_cart_path(item), 
+                          class: "cart-icon", method: :delete do %>
+                      <i class="bi-trash"></i>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% else %>
+            Your cart is currently empty.
+          <% end %>
+          <div class="back-to-shop">
+            <%= link_to "Continue Shopping", products_path, class: "btn btn-sm btn-outline-dark" %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 summary">
+        <div class="container">
+          <h5 class="cart-h5"><b>Summary</b></h5>
+          <hr class="cart-hr">
+          <% if @cart.present? %>
+            <div class="row">
+              <div class="col text-start">
+                <%= "#{pluralize(@cart.length, 'item')}" %>
+              </div>
+              <div class="col text-end">
+                <%= number_to_currency(total_price/100.0) %>
+              </div>
+            </div>
+            <div class="row">
+              <%= "Shipping calculated at checkout" %>
+            </div>
+            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+              <div class="col">
+                Est. Total
+              </div>
+              <div class="col text-right">
+                <%= number_to_currency(total_price/100.0) %>
+              </div>
+            </div>
+            <button class="btn btn-sm btn-outline-dark">CHECKOUT</button>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
