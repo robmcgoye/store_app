@@ -10,4 +10,7 @@ Rails.application.routes.draw do
   delete "remove_from_cart/:id", to: "cart#remove_from_cart", as: "remove_from_cart"
   delete "remove_all_from_cart", to: "cart#remove_all_from_cart"
   resources :cart, only: [:index]
+  post "checkout/create", to: "checkout#create"
+  get "success", to: "checkout#success"
+  get "cancel", to: "checkout#cancel"
 end

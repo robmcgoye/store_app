@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   before_action :initialize_session
   before_action :load_cart
   helper_method :admin_user?
+  helper_method :get_quantity
   
   def admin_user?
     user_signed_in? && current_user.admin?
@@ -14,6 +15,15 @@ class ApplicationController < ActionController::Base
     elsif !current_user.admin?
       flash[:alert] = "You must be an admin to perform that action"
       redirect_to root_path      
+    end
+  end
+
+  def get_quantity(product_id)
+    cart_index = session[:cart].index{|s| s["id"] == product_id}
+    if cart_index.is_a? Integer
+      session[:cart][cart_index]["quantity"]
+    else
+      0
     end
   end
 
