@@ -1,10 +1,13 @@
 <p id="notice"><%= notice %></p>
-<div class="row">
-  <div class="col-2">
-    <%= link_to 'New Product', new_product_path, class: "btn btn-sm btn-outline-success" if admin_user? %>
-  </div>
-  <div class="col-10">
+<div class="row align-items-center">
+  <div class="col-md-auto">
     <h1>Products</h1>
+  </div>
+  <div class="col-md-auto">
+    <% if admin_user? %>
+      <%= link_to 'New Product', new_product_path, class: "btn btn-sm btn-outline-success" %>
+      <%= link_to 'Show all Products', products_path(show_all: 1), class: "btn btn-sm btn-outline-success" %>
+    <% end %>
   </div>
 </div>
 <div class="album py-2 bg-light">
@@ -12,10 +15,12 @@
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         <% @products.each do |product| %>
           <div class="col">
-            <div class="card shadow-sm">
+            <div class="<%= "#{product.available ? "card shadow-sm" : "card shadow-sm text-white bg-warning"}" %>">
               <%= image_tag(product.thumbnail.url) if product.thumbnail? %>
               <div class="card-body">
-                <p class="card-text"><%= product.title %></p>
+                <p class="<%= "#{product.available ? "card-text" : "card-text hidden-product"}" %>">
+                  <%= product.title %>
+                </p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
                     <%= link_to 'View', product, class: "btn btn-sm btn-outline-secondary" %> 
@@ -25,8 +30,14 @@
                       <%= link_to "Remove from cart", remove_from_cart_path(product), 
                                     class: "btn btn-sm btn-outline-dark", method: :delete %>
                     <% else %>
-                      <%= link_to "Add to cart", add_to_cart_path(id: product.id, quantity: 1), 
-                                  class: "btn btn-sm btn-outline-dark", method: :post %>
+                      <% if product.available %>
+                        <% if product.stock > 0 %>
+                          <%= link_to "Add to cart", add_to_cart_path(id: product.id, quantity: 1), 
+                                      class: "btn btn-sm btn-outline-dark", method: :post %>
+                        <% else %>
+                          <button type="button" class="btn btn-sm btn-outline-dark" disabled>Out of stock</button>
+                        <% end %>
+                      <% end %>
                     <% end %>                    
                   </div>
                   <small class="text-muted"><%= number_to_currency(product.price/100.0) %></small>

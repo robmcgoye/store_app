@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_21_215051) do
+ActiveRecord::Schema.define(version: 2022_02_01_114444) do
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -50,6 +50,44 @@ ActiveRecord::Schema.define(version: 2022_01_21_215051) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "addresses", force: :cascade do |t|
+    t.string "address_line_1"
+    t.string "address_line_2"
+    t.string "city"
+    t.string "state"
+    t.string "zip"
+    t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_addresses_on_user_id"
+  end
+
+  create_table "line_items", force: :cascade do |t|
+    t.integer "product_id", null: false
+    t.integer "order_id", null: false
+    t.integer "sold_price"
+    t.integer "quantity"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["order_id"], name: "index_line_items_on_order_id"
+    t.index ["product_id"], name: "index_line_items_on_product_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "address_id", null: false
+    t.string "status"
+    t.string "tracking_info"
+    t.text "notes"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "stripe_session_id"
+    t.string "shipping_rate"
+    t.string "shipping_courier"
+    t.index ["address_id"], name: "index_orders_on_address_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
   create_table "pages", force: :cascade do |t|
     t.string "name"
     t.string "title"
@@ -66,6 +104,13 @@ ActiveRecord::Schema.define(version: 2022_01_21_215051) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "stripe_product_id"
     t.string "stripe_price_id"
+    t.integer "stock"
+    t.integer "sales"
+    t.boolean "available"
+    t.decimal "length"
+    t.decimal "width"
+    t.decimal "height"
+    t.integer "weight"
   end
 
   create_table "users", force: :cascade do |t|
@@ -80,10 +125,15 @@ ActiveRecord::Schema.define(version: 2022_01_21_215051) do
     t.string "stripe_customer_id"
     t.string "first_name"
     t.string "last_name"
+    t.integer "current_address_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "addresses", "users"
+  add_foreign_key "line_items", "orders"
+  add_foreign_key "line_items", "products"
+  add_foreign_key "orders", "users"
 end

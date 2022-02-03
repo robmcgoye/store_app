@@ -1,9 +1,11 @@
 class Product < ApplicationRecord
-  validates :title, :price, presence: true
+  validates :title, :price, :stock, :length, :width, :height, :weight, presence: true
   validates :price, numericality: {greater_than: 0, less_than: 10000000}
+  validates :stock, :length, :width, :height, :weight, numericality: true
   mount_uploader :picture, PictureUploader
   mount_uploader :thumbnail, ThumbnailUploader
   has_rich_text :description
+  has_many :line_items
   
   after_create do
     product = Stripe::Product.create(name: title)

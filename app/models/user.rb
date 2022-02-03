@@ -5,11 +5,13 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :first_name, :last_name, presence: true
+  has_many :addresses
+  has_many :orders
 
   def full_name
     "#{first_name} #{last_name}"
   end
-
+  
   after_create do
     UserMailer.welcome_email(self).deliver_now
     customer = Stripe::Customer.create(email: email, name: full_name)

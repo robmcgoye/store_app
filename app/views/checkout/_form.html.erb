@@ -1,0 +1,46 @@
+
+<%= render 'shared/errors', obj: @address %>
+<%= form_with model: @address, url: address_form_url(@address) do |form| %>
+
+ <div class="mb-2 field form-group">
+    <%= form.label :address_line_1 %>
+    <%= form.text_field :address_line_1, class: "form-control", placeholder: "1234 Main St" %>
+  </div>
+
+  <div class="mb-2 field form-group">
+    <%= form.label :address_line_2 %>
+      <span class="text-muted">(Optional)</span>
+    <%= form.text_field :address_line_2, class: "form-control", placeholder: "Apartment or suite" %>
+  </div>
+
+  <div class="row">
+    <div class="col-md-5 mb-2 field form-group">
+      <%= form.label :city %>
+      <%= form.text_field :city, class: "form-control", placeholder: "City" %>
+    </div>
+    <div class="col-md-4 mb-2 field form-group">
+      <%= form.label :state %>
+      <%= form.select :state, options_for_select(CS.states(:us),  @address.state), 
+                {include_blank: 'Choose...'}, 
+                class: "form-control", 
+                required: true %>
+    </div>
+    <div class="col-md-3 mb-2 field form-group">
+      <%= form.label :zip %>
+      <%= form.text_field :zip, class: "form-control", placeholder: "" %>
+    </div>
+    <div class="mb-2 field form-group">
+    <% if @address.id? %>
+      <%= form.check_box :update_user_address %>
+      <%= form.label :update_user_address, "Update your address?" %>
+    <% else %>
+      <%= form.check_box :save_user_address %>
+      <%= form.label :save_user_address, "Save your address?" %>
+    <% end %>
+    </div>
+  </div>
+  <hr class="mb-2">
+  <div class="actions pt-2">
+    <%= form.submit "Continue to payment", class: "btn btn-sm btn-outline-dark" %>
+  </div>
+<% end %>

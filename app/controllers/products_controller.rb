@@ -1,14 +1,26 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update, :destroy ]
+  before_action :set_product, only: [:edit, :update, :destroy ]
   before_action :require_admin_user, only: [:new, :edit, :update, :destroy]
 
   # GET /products or /products.json
   def index
-    @products = Product.all
+    if params[:show_all].to_i == 1 && admin_user?
+      @products = Product.all
+    else
+      @products = Product.where(available: true)
+    end
   end
 
   # GET /products/1 or /products/1.json
   def show
+    if admin_user?
+      set_product
+    else
+      @product = Product.find_by(id: params[:id], available: true)
+      if !@product.present?
+        redirect_to products_path
+      end
+    end
   end
 
   # GET /products/new
@@ -66,6 +78,7 @@ class ProductsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def product_params
-      params.require(:product).permit(:title, :description, :picture, :thumbnail, :price)
+      params.require(:product).permit(:title, :description, :picture, :thumbnail, 
+                      :price, :stock, :available, :length, :width, :height, :weight)
     end
 end

@@ -31,6 +31,8 @@ gem 'carrierwave', '~> 2.2', '>= 2.2.2'
 gem 'mini_magick', '~> 4.11'
 gem 'stripe', '~> 5.42'
 gem 'mail_form', '~> 1.9'
+gem 'city-state', '~> 0.1.0'
+gem 'easy-box-packer', '~> 0.0.8'
 #---------------------------------------
 
 group :production do

@@ -19,12 +19,8 @@ class ApplicationController < ActionController::Base
   end
 
   def get_quantity(product_id)
-    cart_index = session[:cart].index{|s| s["id"] == product_id}
-    if cart_index.is_a? Integer
-      session[:cart][cart_index]["quantity"]
-    else
-      0
-    end
+    product = session[:cart].select{ |c| c["id"] == product_id }.first
+    product["quantity"]
   end
 
   private
@@ -34,13 +30,26 @@ class ApplicationController < ActionController::Base
   end
 
   def load_cart
-    # @cart = Product.find(session[:cart])
-    # Product.all.pluck(:id) => 1, 2
-    # Product.find(1, 2, 3) => error
-    # Product.where(id: [1, 2, 3]) => 1, 2
     ids=[]
     session[:cart].each{ |s| ids << s["id"] }
     @cart = Product.where(id: ids)
+    session[:cart].each do |s|
+      product = @cart.select{ |c| c[:id] == s["id"] }.first
+      if s["quantity"].to_i > product[:stock]
+        s["quantity"] = product[:stock]
+        if product[:stock] > 0
+          flash.now[:alert] = "#{product[:title]} quantity has been reduced in your cart"
+        end
+      end
+    end
+    items_to_remove = @cart.select{ |product| product[:available] == false || product[:stock] == 0}
+    if items_to_remove.present?
+      @cart = @cart.select{ |product| product[:available] == true && product[:stock] > 0}
+      items_to_remove.each do |product| 
+        session[:cart].delete_if{ |c| c["id"] == product[:id]}
+        flash.now[:alert] = "#{product[:title]} has been removed from your cart"
+      end
+    end
   end
 
 end

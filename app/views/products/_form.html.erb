@@ -1,4 +1,15 @@
+<%= render 'shared/errors', obj: product %>
 <%= form_with(model: product, mulitpart: true) do |form| %>
+
+  <div class="row">
+    <div class="col field form-group">
+      <%= form.check_box :available, class: "form-check-input" %>
+      <%= form.label :available, "Show in store?", class: "form-check-label" %>
+    </div>
+    <div class="col">
+      <%= "Items sold: #{product.sales}" %>
+    </div>
+  </div>
 
   <div class="field form-group">
     <%= form.label :title %>
@@ -10,9 +21,15 @@
     <%= form.rich_text_area :description %>
   </div>
 
-  <div class="field form-group">
-    <%= form.label :price %>
-    <%= form.number_field :price, class: "form-control" %>
+  <div class="row">
+    <div class="col field form-group">
+      <%= form.label :price %> in cents
+      <%= form.number_field :price, class: "form-control" %>
+    </div>
+    <div class="col-2 field form-group">
+      <%= form.label :stock %>
+      <%= form.number_field :stock, class: "form-control" %>
+    </div>
   </div>
 
   <div class="field input-group pt-2">
@@ -24,6 +41,25 @@
     <label class="input-group-text" for="inputGroupFile02"><%= form.label :thumbnail %></label>
     <%= form.file_field :thumbnail, accept: 'image/jpeg,image/gif,image/png', class: "form-control", id: "inputGroupFile02" %>
   </div>
+
+  <div class="row">
+    <div class="col-4 field form-group">
+      <%= form.label :length %> inches
+      <%= form.number_field :length, class: "form-control", step: :any %>
+    </div>
+    <div class="col-4 field form-group">
+      <%= form.label :width %> inches
+      <%= form.number_field :width, class: "form-control", step: :any %>
+    </div>
+    <div class="col-4 field form-group">
+      <%= form.label :height %> inches
+      <%= form.number_field :height, class: "form-control", step: :any %>
+    </div>
+  </div>
+    <div class="col-5 field form-group">
+      <%= form.label :weight %> ounces (16 oz = 1 lbs)
+      <%= form.number_field :weight, class: "form-control" %>
+    </div>
 
   <div class="actions pt-2">
     <%= form.submit class: "btn btn-sm btn-outline-dark" %>

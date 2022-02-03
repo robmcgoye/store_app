@@ -1,0 +1,55 @@
+<div class="card-cart">
+  <div class="row p-3">
+    <div class="col-md-4 order-md-2 mb-4">
+      <h4 class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-muted">
+          <%= link_to cart_index_path, class: "btn btn-sm btn-outline-dark" do %>
+            <i class="bi-cart"></i> Edit Cart
+          <% end %>
+        </span>
+        <span class="badge bg-secondary badge-pill">
+          <%= @cart.length %>
+        </span>
+      </h4>
+      <ul class="list-group mb-3">
+        <% total_price = 0 %>
+        <% @cart.each do |item| %>
+          <% quantity = get_quantity(item.id) %>
+          <% price = item.price * quantity %>
+          <% total_price += price %>
+          
+          <li class="list-group-item d-flex justify-content-between lh-condensed">
+            <div>
+              <h6 class="my-0">
+                <% if item.title.length > 15 %>
+                  <%= "#{item.title[0...12]}..." %>
+                <% else %>
+                  <%= item.title %>
+                <% end %>
+              </h6>
+              <% if quantity > 1 %>
+                <small class="text-muted">
+                  <%= "(#{number_to_currency(item.price/100.0)} ea.)" %>
+                </small>
+              <% end %>
+            </div>
+            <span class="text-muted"><%= number_to_currency(price/100.0) %></span>
+          </li>
+        <% end %>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Total (USD)</span>
+          <strong><%= number_to_currency(total_price/100.0) %></strong>
+        </li>
+      </ul>
+      <div class="container">
+      <%= @container %>
+      <p> <%= @container_items %> </P>
+      </div>
+    </div>
+    <div class="col-md-8 order-md-1">
+      <h4 class="mb-3">Shipping</h4>
+      <%= render 'form' %>
+    </div>
+  </div>
+</div>
+

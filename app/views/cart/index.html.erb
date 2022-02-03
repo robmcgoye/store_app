@@ -83,7 +83,7 @@
               </div>
             </div>
             <div class="row">
-              <%= "Shipping calculated at checkout" %>
+              <i><%= "Shipping calculated at checkout" %></i>
             </div>
             <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
               <div class="col">
@@ -93,9 +93,8 @@
                 <%= number_to_currency(total_price/100.0) %>
               </div>
             </div>
-            <%= button_to "CHECKOUT", checkout_create_path, remote: true, 
-                          data: { disable_with: "validating..."}, 
-                          class: "btn btn-sm btn-outline-dark" %>
+            <% #button_to "CHECKOUT", checkout_create_order_path, remote: true, data: { disable_with: "validating..."}, class: "btn btn-sm btn-outline-dark" %>
+            <%= button_to "CHECKOUT", checkout_path, class: "btn btn-sm btn-outline-dark", method: :get %>
           <% end %>
         </div>
       </div>
